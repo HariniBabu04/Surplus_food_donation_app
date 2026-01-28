@@ -1,2 +1,18 @@
-# Surplus_food_donation_app
-A web application for surplus food donation using Java, Python, and My SQL Server.
+# Surplus Food Donation Web Application
+
+A web-based application to connect organizations, industries, and NGOs for donating surplus food efficiently.
+
+## Technologies Used
+- Java (Spring Boot)
+- Python (Flask)
+- MySQL Server
+- HTML, CSS, JavaScript
+
+## Features
+- OTP verification
+- Google Maps location tracking
+- Food expiry auto-removal
+- Donation analytics dashboard
+
+## Future Scope
+- Mobile application
