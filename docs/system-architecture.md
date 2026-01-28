@@ -1,4 +1,4 @@
-## System Architecture
+### System Architecture
 
 The Surplus Food Donation Web Application follows a three-tier architecture to ensure scalability, security, and efficient data management. The system integrates web technologies with Java, Python, and MySQL Server to provide a robust solution for surplus food donation management.
 
@@ -10,7 +10,7 @@ The system is divided into the following layers:
 2. Application Layer (Backend Services)
 3. Data Layer (Database)
 
-** 1. Presentation Layer**
+### 1. Presentation Layer
 
 The presentation layer provides the user interface for all users including Admin, Donors, and NGOs/Volunteers. It is developed using HTML, CSS, JavaScript, and Bootstrap. Google Maps API is integrated in this layer to enable location-based food donation and pickup.
 
