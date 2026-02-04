@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Surplus Food</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Surplus Food Donation</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="donor-dashboard.html">Donor Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="manageDonation.html">Manage Donation</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">NGO</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<h1>Add Surplus Food</h1>
+<form>
+  <div class="row mb-3 align-items-center">
+    <h5 class="mt-4">Food Details</h5>
+    <label for="foodName" class="col-sm-2 col-form-label">Food name:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="foodName">
+    </div>
+  </div>
+<div class="row mb-3 align-items-center">
+    <label class="col-sm-2 col-form-label">Select Category:</label>
+        <div class="col-sm-4">
+            <select class="form-select" id="role">
+                <option value="">Category....</option>
+                <option value="veg">Veg</option>
+                <option value="nonveg">Non Veg</option>
+            </select>
+    </div>
+</div>
+  <div class="row mb-3 align-items-center">
+    <label for="quantity" class="col-sm-2 col-form-label">Quantity:</label>
+    <div class="col-sm-4">
+      <input type="number" class="form-control" id="quantity">
+    </div>
+  </div>
+  <div class="row mb-3 align-items-center">
+    <h5 class="mt-4">Time Details</h5>
+    <label for="pDate" class="col-sm-2 col-form-label">Prepared date:</label>
+    <div class="col-sm-4">
+      <input type="date" class="form-control" id="pDate">
+    </div>
+  </div>
+  <div class="row mb-3 align-items-center">
+      <label for="pTime" class="col-sm-2 col-form-label">Prepared time:</label>
+    <div class="col-sm-4">
+      <input type="time" class="form-control" id="pTime">
+    </div>
+    </div>
+    <div class="row mb-3 align-items-center ">
+    <label for="eTime" class="col-sm-2 col-form-label">Expiry time:</label>
+    <div class="col-sm-4">
+      <input type="time" class="form-control" id="pTime">
+    </div>
+  </div>
+    <div class="row mb-3 align-items-center">
+    <h5 class="mt-4">Location Details</h5>
+    <label for="loc" class="col-sm-2 col-form-label">Pickup Location:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="loc">
+    </div>
+  </div>
+    <div class="row mb-3 align-items-center ">
+    <h5 class="mt-4">Contact Details</h5>
+    <label for="contactPerson" class="col-sm-2 col-form-label">Contact Person:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="contactPerson">
+    </div>
+  </div>
+    <div class="row mb-3 align-items-center ">
+    <label for="number" class="col-sm-2 col-form-label">Contact number:</label>
+    <div class="col-sm-4">
+      <input type="tel" class="form-control" id="number">
+    </div>
+  </div>
+<button type="submit" class="btn btn-outline-success w-50">Add</button>
+
+</form>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
