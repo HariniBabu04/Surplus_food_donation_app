@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="Viewport" content="width=device-width, initial-scale=1.0">
+<title>View Donation</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+<div class="container-fluid">
+<a class="navbar-brand" href="#">Surplus Food Donation</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav ms-auto align-items-center">
+<li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="ngo-dashboard.html">NGO Dashboard</a></li>
+<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+<div class="container-fluid mt-4">
+<h5>View Donation</h5>
+
+<div class="row mb-3">
+<div class="col-md-3">
+<select class="form-select" id="filterType">
+<option value="">All Food</option>
+<option value="veg">Veg Food</option>
+<option value="non veg">Non Veg Food</option>
+<option value="packed">Packed Food</option>
+<option value="snack">Snacks</option>
+<option value="fruit">Fruits</option>
+<option value="beverage">Beverages</option>
+</select>
+</div>
+
+<div class="col-md-3">
+<select class="form-select" id="expiryTime">
+<option value="">All Expiry Times</option>
+<option value="soon">Soon</option>
+<option value="later">Later</option>
+</select>
+</div>
+
+<div class="col-md-3">
+<select class="form-select" id="filterQuantity">
+<option value="">All Quantity</option>
+<option value="small">Small</option>
+<option value="medium">Medium</option>
+<option value="large">Large</option>
+</select>
+</div>
+
+<div class="col-md-3">
+<input type="text" class="form-control" placeholder="Search by food or location" id="searchBox">
+</div>
+</div>
+
+<div class="card shadow-sm">
+<div class="card-body">
+<table class="table table-bordered">
+<thead class="table-success">
+<tr>
+<th>Donation ID</th>
+<th>Food Name</th>
+<th>Category</th>
+<th>Quantity</th>
+<th>Location</th>
+<th>Expiry Time</th>
+<th>Donor Organization Name</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="donationTable">
+<tr>
+<td>1</td>
+<td>Chicken Biriyani</td>
+<td>Non Veg</td>
+<td>3 kg</td>
+<td>Taramani, Chennai <i class="bi bi-geo-alt-fill text-success ms-2 View-btn" data-location="Taramani, Chennai"></i></td>
+<td>23:00</td>
+<td>KMS Hakkim</td>
+<td>Available</td>
+<td><button class="btn btn-sm btn-success View-btn">View</button></td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Vegetable Curry</td>
+<td>Veg</td>
+<td>9 kg</td>
+<td>T Nagar, Chennai <i class="bi bi-geo-alt-fill text-success ms-2 View-btn" data-location="T Nagar, Chennai"></i></td>
+<td>20:30</td>
+<td>Saravana Bhavan</td>
+<td>Available</td>
+<td><button class="btn btn-sm btn-success View-btn">View</button></td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Bread</td>
+<td>Packed</td>
+<td>25 packets</td>
+<td>Anna Nagar, Chennai <i class="bi bi-geo-alt-fill text-success ms-2 View-btn" data-location="Anna Nagar, Chennai"></i></td>
+<td>11:30</td>
+<td>A2B</td>
+<td>Completed</td>
+<td><button class="btn btn-sm btn-success View-btn">View</button></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>Mutton Gravy</td>
+<td>Non Veg</td>
+<td>3 kg</td>
+<td>Egmore, Chennai <i class="bi bi-geo-alt-fill text-success ms-2 View-btn" data-location="Egmore, Chennai"></i></td>
+<td>23:00</td>
+<td>Buhari</td>
+<td>Picked Up</td>
+<td><button class="btn btn-sm btn-success View-btn">View</button></td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>Noodles</td>
+<td>Veg</td>
+<td>12 packets</td>
+<td>Thillai Nagar, Trichy <i class="bi bi-geo-alt-fill text-success ms-2 View-btn" data-location="Thillai Nagar, Trichy"></i></td>
+<td>23:00</td>
+<td>Thoppi Vappa</td>
+<td>Cancelled</td>
+<td><button class="btn btn-sm btn-success View-btn">View</button></td>
+</tr>
+
+<tr class="no-data-row" style="display:none;">
+<td colspan="9" class="text-center text-danger">No data found</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<script>
+   const filterType = document.getElementById("filterType")
+const filterQuantity = document.getElementById("filterQuantity")
+const expiryTime = document.getElementById("expiryTime")
+const searchBox = document.getElementById("searchBox")
+const rows = document.querySelectorAll("#donationTable tr")
+const noData = document.querySelector(".no-data-row")
+
+function getQuantitySize(text){
+  let value = parseFloat(text)
+  if(value < 5) return "small"
+  if(value <= 10) return "medium"
+  return "large"
+}
+
+function isExpiryMatch(time, filter){
+  if(!filter) return true
+  let now = new Date()
+  let [h,m] = time.split(":")
+  let expiry = new Date()
+  expiry.setHours(h,m,0,0)
+  let diff = (expiry - now) / (1000*60)
+  if(filter === "soon") return diff <= 120
+  if(filter === "later") return diff > 120
+}
+
+function filterTable(){
+  let visible = false
+  rows.forEach(row => {
+    if(row.classList.contains("no-data-row")) return
+    let food = row.cells[1].innerText.toLowerCase()
+    let category = row.cells[2].innerText.toLowerCase()
+    let quantity = row.cells[3].innerText
+    let location = row.cells[4].innerText.toLowerCase()
+    let expiry = row.cells[5].innerText
+
+    let typeMatch = !filterType.value || category.includes(filterType.value)
+    let quantityMatch = !filterQuantity.value || getQuantitySize(quantity) === filterQuantity.value
+    let expiryMatch = isExpiryMatch(expiry, expiryTime.value)
+    let searchMatch = !searchBox.value || food.includes(searchBox.value.toLowerCase()) || location.includes(searchBox.value.toLowerCase())
+
+    if(typeMatch && quantityMatch && expiryMatch && searchMatch){
+      row.style.display = ""
+      visible = true
+    } else {
+      row.style.display = "none"
+    }
+  })
+  noData.style.display = visible ? "none" : ""
+}
+
+filterType.onchange = filterTable
+filterQuantity.onchange = filterTable
+expiryTime.onchange = filterTable
+searchBox.onkeyup = filterTable
+
+document.querySelectorAll("button.View-btn").forEach(btn => {
+  btn.onclick = () => {
+    let row = btn.closest("tr")
+    let status = row.cells[7].innerText
+
+    if(status === "Picked Up") {
+      alert("This food has already been picked up")
+      return
+    } else if(status === "Completed") {
+      alert("This food is no longer available")
+      return
+    } else if(status === "Cancelled") {
+      alert("This donation has been cancelled")
+      return
+    }
+
+    let donorContacts = {
+      "1": "9876543210",
+      "2": "9123456780",
+      "3": "9988776655",
+      "4": "9012345678",
+      "5": "9090909090"
+    }
+    let id = row.cells[0].innerText
+    let data = {
+      id: id,
+      food: row.cells[1].innerText,
+      category: row.cells[2].innerText,
+      quantity: row.cells[3].innerText,
+      location: row.cells[4].innerText,
+      expiry: row.cells[5].innerText,
+      donor: row.cells[6].innerText,
+      status: status,
+      phone: donorContacts[id] || ""
+    }
+    localStorage.setItem("selectedDonation", JSON.stringify(data))
+    window.location.href = "acceptDonation.html"
+  }
+})
+
+</script>
+
+</body>
+</html>
