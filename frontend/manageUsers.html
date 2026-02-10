@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Users</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Surplus Food Donation</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="adminDashboard.html">Admin Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="manageDonation-admin.html">Manage Donations</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h3 class="mb-4">Manage Users</h3>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Search by name, email, phone" id="searchBox">
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" id="filterRole">
+        <option value="">Filter by Role</option>
+        <option>Donor</option>
+        <option>NGO</option>
+        <option>Volunteer</option>
+        <option>Admin</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" id="filterStatus">
+        <option value="">Filter by Status</option>
+        <option>Active</option>
+        <option>Inactive</option>
+        <option>Blocked</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>User ID</th>
+          <th>User Name</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Organization</th>
+          <th>Registered On</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>U001</td>
+          <td>John Doe</td>
+          <td>Donor</td>
+          <td>john@example.com</td>
+          <td>9876543210</td>
+          <td>-</td>
+          <td>2024-01-10</td>
+          <td>Active</td>
+          <td>
+            <a href="viewUser.html?id=U001" class="btn btn-sm btn-outline-info">View</a>
+            <a href="editUser.html?id=U001" class="btn btn-sm btn-outline-warning">Edit</a>
+            <button class="btn btn-sm btn-outline-danger block-btn">Block</button>
+          </td>
+        </tr>
+        <tr>
+          <td>U002</td>
+          <td>Lucas</td>
+          <td>NGO</td>
+          <td>lucas@example.com</td>
+          <td>6754396754</td>
+          <td>Helping Hands</td>
+          <td>2023-08-12</td>
+          <td>Active</td>
+          <td>
+            <a href="viewUser.html?id=U002" class="btn btn-sm btn-outline-info">View</a>
+            <a href="editUser.html?id=U002" class="btn btn-sm btn-outline-warning">Edit</a>
+            <button class="btn btn-sm btn-outline-danger block-btn">Block</button>
+          </td>
+        </tr>
+        <tr class="no-data-row" style="display: none;">
+            <td colspan="9" class="text-center text-danger">No data found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const searchBox = document.getElementById("searchBox");
+  const roleFilter = document.getElementById("filterRole");
+  const statusFilter = document.getElementById("filterStatus");
+  const tableRows = document.querySelectorAll("tbody tr:not(.no-data-row)");
+  const noDataRow = document.querySelector(".no-data-row");
+  const blockButtons = document.querySelectorAll(".block-btn");
+
+  function filterTable() {
+    const searchText = searchBox.value.toLowerCase();
+    const selectedRole = roleFilter.value.toLowerCase();
+    const selectedStatus = statusFilter.value.toLowerCase();
+    let visibleCount = 0;
+
+    tableRows.forEach(row => {
+      const name = row.cells[1].innerText.toLowerCase();
+      const role = row.cells[2].innerText.toLowerCase();
+      const email = row.cells[3].innerText.toLowerCase();
+      const phone = row.cells[4].innerText.toLowerCase();
+      const status = row.cells[7].innerText.toLowerCase();
+
+      const matchesSearch =
+        name.includes(searchText) || email.includes(searchText) || phone.includes(searchText);
+      const matchesRole = selectedRole === "" || role === selectedRole;
+      const matchesStatus = selectedStatus === "" || status === selectedStatus;
+
+      if (matchesSearch && matchesRole && matchesStatus) {
+        row.style.display = "";
+        visibleCount++;
+      } else {
+        row.style.display = "none";
+      }
+    });
+
+    noDataRow.style.display = visibleCount === 0 ? "" : "none";
+  }
+
+  searchBox.addEventListener("keyup", filterTable);
+  roleFilter.addEventListener("change", filterTable);
+  statusFilter.addEventListener("change", filterTable);
+
+  blockButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const row = this.closest("tr");
+      const userName = row.cells[1].innerText;
+      const userStatusCell = row.cells[7];
+
+      if(confirm(`Are you sure you want to block ${userName}?`)) {
+        userStatusCell.innerText = "Blocked";
+        userStatusCell.classList.add("text-danger");
+        this.disabled = true;
+        this.innerText = "Blocked";
+        this.classList.remove("btn-outline-danger");
+        this.classList.add("btn-secondary");
+      }
+    });
+  });
+</script>
+</body>
+</html>
