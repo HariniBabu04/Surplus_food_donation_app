@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accept & Verify Donation</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+<div class="container-fluid">
+<a class="navbar-brand" href="#">Surplus Food Donation</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav ms-auto align-items-center">
+<li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="ngo-dashboard.html">NGO Dashboard</a></li>
+<li class="nav-item"><a class="nav-link" href="viewDonation.html">View Donations</a></li>
+<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+<li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+<div class="container my-4">
+<div class="card shadow">
+<div class="card-body">
+
+<h5 class="text-success mb-3">Donation Information</h5>
+<table class="table table-bordered">
+<tr><th>Donation ID</th><td id="donationId"></td></tr>
+<tr><th>Food Name</th><td id="foodName"></td></tr>
+<tr><th>Food Type</th><td id="foodType"></td></tr>
+<tr><th>Quantity</th><td id="quantity"></td></tr>
+<tr><th>Donor Name / Organization</th><td id="donorName"></td></tr>
+<tr><th>Pickup Location</th><td id="pickupLocation"></td></tr>
+<tr><th>Accepted Time</th><td id="acceptedTime"></td></tr>
+<tr><th>NGO Name</th><td id="ngoName"></td></tr>
+</table>
+
+<h5 class="text-success mt-4 mb-3">Pickup Verification</h5>
+<form class="row g-3" id="pickupForm">
+<div class="col-md-4">
+<label class="form-label">Actual Pickup Time</label>
+<input type="datetime-local" class="form-control" id="actualPickupTime">
+</div>
+<div class="col-md-4">
+<label class="form-label">Volunteer Name</label>
+<input type="text" class="form-control" id="volunteerName">
+</div>
+<div class="col-md-4">
+<label class="form-label">Vehicle Number</label>
+<input type="text" class="form-control" id="vehicleNumber">
+</div>
+<div class="col-md-4">
+<label class="form-label">Condition of Food</label>
+<select class="form-select" id="foodCondition">
+<option>Good</option>
+<option>Average</option>
+<option>Not Suitable</option>
+</select>
+</div>
+<div class="col-md-8">
+<label class="form-label">Remarks</label>
+<textarea class="form-control" rows="2" id="pickupRemarks"></textarea>
+</div>
+
+<h5 class="text-success mt-4 mb-3">OTP Verification</h5>
+<div class="col-md-4">
+<label class="form-label">Enter Pickup OTP</label>
+<input type="text" class="form-control" id="pickupOTP">
+</div>
+<div class="col-md-2 d-flex align-items-end">
+<button type="button" class="btn btn-primary w-100" id="verifyOTP">Verify OTP</button>
+</div>
+
+<div class="col-12 d-flex justify-content-end gap-2 mt-4">
+<button type="button" class="btn btn-success" id="confirmPickup">Confirm Pickup</button>
+<button type="button" class="btn btn-outline-danger" onclick="window.location.href='acceptDonation.html'">Cancel</button>
+</div>
+</form>
+
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let data = JSON.parse(localStorage.getItem("selectedDonation"))
+if(data){
+document.getElementById("donationId").innerText = data.id
+document.getElementById("foodName").innerText = data.food
+document.getElementById("foodType").innerText = data.category
+document.getElementById("quantity").innerText = data.quantity
+document.getElementById("donorName").innerText = data.donor
+document.getElementById("pickupLocation").innerText = data.location
+document.getElementById("acceptedTime").innerText = new Date().toLocaleString()
+document.getElementById("ngoName").innerText = "Helping Hands NGO"
+document.getElementById("volunteerName").value = "Arun Kumar"
+}
+
+document.getElementById("verifyOTP").onclick = () => {
+let otp = document.getElementById("pickupOTP").value
+if(otp === "1234") alert("OTP Verified Successfully")
+else alert("Invalid OTP")
+}
+
+document.getElementById("confirmPickup").onclick = () => {
+let pickupTime = document.getElementById("actualPickupTime").value
+let volunteer = document.getElementById("volunteerName").value
+let vehicle = document.getElementById("vehicleNumber").value
+let condition = document.getElementById("foodCondition").value
+let remarks = document.getElementById("pickupRemarks").value
+if(!pickupTime || !volunteer){
+alert("Please fill required fields")
+return
+}
+alert("Pickup Confirmed\nStatus Updated to Picked Up")
+}
+</script>
+
+</body>
+</html>
