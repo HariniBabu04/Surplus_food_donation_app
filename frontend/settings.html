@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings Page</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Surplus Food Donation</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<h1 class="text-center mt-4 mb-4">Settings</h1>
+
+<div class="d-flex justify-content-center">
+<form id="settingsForm" class="w-75 bg-white p-4 shadow rounded">
+
+  <h5 class="mb-3">Account Settings</h5>
+
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <div class="input-group">
+      <input type="password" id="passwordField" class="form-control editable" value="password123" disabled>
+      <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+        <i class="bi bi-eye"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control editable" value="john@example.com" disabled>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Phone</label>
+    <input type="text" class="form-control editable" value="9876543210" disabled>
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input editable" type="checkbox" id="otpCheck" disabled checked>
+    <label class="form-check-label" for="otpCheck">Enable OTP Verification</label>
+  </div>
+
+  <h5 class="mb-3 mt-4">Notification Settings</h5>
+
+  <div class="form-check">
+    <input class="form-check-input editable" type="checkbox" disabled checked>
+    <label class="form-check-label">Email Notifications</label>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input editable" type="checkbox" disabled>
+    <label class="form-check-label">SMS Notifications</label>
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input editable" type="checkbox" disabled checked>
+    <label class="form-check-label">Donation Alerts</label>
+  </div>
+
+  <h5 class="mb-3 mt-4">Privacy Settings</h5>
+
+  <div class="form-check">
+    <input class="form-check-input editable" type="checkbox" disabled>
+    <label class="form-check-label">Show Contact Details to NGOs</label>
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input editable" type="checkbox" disabled>
+    <label class="form-check-label">Allow Location Sharing</label>
+  </div>
+
+  <h5 class="mb-3 mt-4">System Preferences</h5>
+
+  <div class="mb-3">
+    <label class="form-label">Language</label>
+    <select class="form-select editable" disabled>
+      <option selected>English</option>
+      <option>Spanish</option>
+      <option>French</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Time Format</label>
+    <select class="form-select editable" disabled>
+      <option selected>12-Hour</option>
+      <option>24-Hour</option>
+    </select>
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mt-4">
+    <button type="button" id="editBtn" class="btn btn-outline-success w-25">Edit Settings</button>
+    <button type="submit" id="saveBtn" class="btn btn-success w-25 d-none">Save</button>
+    <button type="button" id="cancelBtn" class="btn btn-secondary w-25 d-none">Cancel</button>
+  </div>
+
+</form>
+</div>
+
+<script>
+const editBtn = document.getElementById("editBtn");
+const saveBtn = document.getElementById("saveBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const editableFields = document.querySelectorAll(".editable");
+
+let originalValues = [];
+
+editBtn.addEventListener("click", function() {
+    originalValues = [];
+    editableFields.forEach((field, index) => {
+        if (field.type === "checkbox") {
+            originalValues[index] = field.checked;
+        } else {
+            originalValues[index] = field.value;
+        }
+        field.disabled = false;
+    });
+    editBtn.classList.add("d-none");
+    saveBtn.classList.remove("d-none");
+    cancelBtn.classList.remove("d-none");
+});
+
+cancelBtn.addEventListener("click", function() {
+    editableFields.forEach((field, index) => {
+        if (field.type === "checkbox") {
+            field.checked = originalValues[index];
+        } else {
+            field.value = originalValues[index];
+        }
+        field.disabled = true;
+    });
+    editBtn.classList.remove("d-none");
+    saveBtn.classList.add("d-none");
+    cancelBtn.classList.add("d-none");
+});
+
+document.getElementById("settingsForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    editableFields.forEach(field => field.disabled = true);
+    editBtn.classList.remove("d-none");
+    saveBtn.classList.add("d-none");
+    cancelBtn.classList.add("d-none");
+});
+
+document.getElementById("togglePassword").addEventListener("click", function() {
+    const passwordField = document.getElementById("passwordField");
+    const icon = this.querySelector("i");
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    } else {
+        passwordField.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
