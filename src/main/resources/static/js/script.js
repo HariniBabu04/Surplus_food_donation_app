@@ -4,6 +4,7 @@ console.log("script loaded");
    ROLE SELECTION
 ========================= */
 function selectRole() {
+
     const role = document.getElementById("role");
     const donorInfo = document.getElementById("donor");
     const ngoInfo = document.getElementById("ngo");
@@ -13,9 +14,11 @@ function selectRole() {
     donorInfo.style.display = "none";
     ngoInfo.style.display = "none";
 
-    if (role.value === "donor") donorInfo.style.display = "block";
-    if (role.value === "ngo") ngoInfo.style.display = "block";
+    if (role.value === "1") donorInfo.style.display = "block";
+    if (role.value === "2") ngoInfo.style.display = "block";
 }
+
+document.addEventListener("DOMContentLoaded", selectRole);
 
 
 // ================================

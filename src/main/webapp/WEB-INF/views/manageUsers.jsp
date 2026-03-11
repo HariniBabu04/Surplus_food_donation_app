@@ -71,7 +71,7 @@
 							<td>2023-08-12</td>
 							<td>Active</td>
 							<td>
-								<a href="${pageContext.request.contextPath}/viewUser?id=U002" class="btn btn-sm btn-outline-info">View</a>
+								<a href="viewUser?id=U002" class="btn btn-sm btn-outline-info">View</a>
 								<a href="editUser?id=U002" class="btn btn-sm btn-outline-warning">Edit</a>
 								<button class="btn btn-sm btn-outline-danger block-btn">Block</button>
 							</td>

@@ -1,30 +1,67 @@
 package com.example.foodapp.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.foodapp.model.User;
+import com.example.foodapp.repository.UserRepository;
 
 @Controller
 public class AuthController {
 
+	@Autowired
+	private UserRepository repo;
+
 	// Show home Page
 	@GetMapping("/")
-	public String HomePage() {
+	public String homePage() {
 		return "home";
 	}
 
-	// Show login Page
+	// ================= LOGIN PAGE =================
 	@GetMapping("/login")
-	public String LoginPage() {
+	public String loginPage() {
 		return "login";
 	}
 
-	// Show register Page
+	// ================= LOGIN PROCESS =================
+	@PostMapping("/login")
+	public String loginUser(@ModelAttribute User user) {
+
+		User existingUser = repo.findByEmail(user.getEmail());
+
+		if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
+
+			Integer role = existingUser.getRole();
+
+			if (role == 1) {
+				return "redirect:/donor-dashboard";
+			} else if (role == 2) {
+				return "redirect:/ngo-dashboard";
+			} else if (role == 3) {
+				return "redirect:/admin-dashboard";
+			}
+		}
+
+		return "login";
+	}
+
+	// ================= REGISTER PAGE =================
 	@GetMapping("/register")
-	public String RegisterPage() {
+	public String registerPage() {
 		return "register";
+	}
+
+	// ================= REGISTER PROCESS =================
+	@PostMapping("/register")
+	public String registerUser(@ModelAttribute User user) {
+
+		repo.save(user);
+
+		return "redirect:/login";
 	}
 
 	// Show forgot-password Page
