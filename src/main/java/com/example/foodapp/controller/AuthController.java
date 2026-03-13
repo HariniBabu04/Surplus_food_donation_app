@@ -1,19 +1,28 @@
 package com.example.foodapp.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.foodapp.model.Donation;
 import com.example.foodapp.model.User;
-import com.example.foodapp.repository.UserRepository;
+import com.example.foodapp.repository.DonationRepository;
+import com.example.foodapp.service.UserService;
 
 @Controller
 public class AuthController {
 
 	@Autowired
-	private UserRepository repo;
+	private UserService userService;
+
+	@Autowired
+	private DonationRepository donationRepo;
 
 	// Show home Page
 	@GetMapping("/")
@@ -31,9 +40,9 @@ public class AuthController {
 	@PostMapping("/login")
 	public String loginUser(@ModelAttribute User user) {
 
-		User existingUser = repo.findByEmail(user.getEmail());
+		User existingUser = userService.authenticateUser(user.getEmail(), user.getPassword());
 
-		if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
+		if (existingUser != null) {
 
 			Integer role = existingUser.getRole();
 
@@ -56,12 +65,18 @@ public class AuthController {
 	}
 
 	// ================= REGISTER PROCESS =================
+
 	@PostMapping("/register")
-	public String registerUser(@ModelAttribute User user) {
+	public String registerUser(@ModelAttribute User user, RedirectAttributes ra) {
 
-		repo.save(user);
+	    boolean status = userService.registerUser(user);
 
-		return "redirect:/login";
+	    if (!status) {
+	        ra.addFlashAttribute("errorMessage", "Email already exists!");
+	        return "redirect:/register";
+	    }
+
+	    return "redirect:/login";
 	}
 
 	// Show forgot-password Page
@@ -80,6 +95,39 @@ public class AuthController {
 	@GetMapping("/addSurplusfood")
 	public String AddDonationPage() {
 		return "addSurplusfood";
+	}
+
+	@PostMapping("/addSurplusfood")
+	public String addDonation(@RequestParam String foodName, @RequestParam String foodType,
+			@RequestParam String quantity, @RequestParam String preparedDate, @RequestParam String preparedTime,
+			@RequestParam String expiryTime, @RequestParam String pickupAddress, @RequestParam String contactPerson,
+			@RequestParam String contactNumber) {
+
+		Donation donation = new Donation();
+
+		donation.setFoodName(foodName);
+		donation.setFoodType(foodType);
+		donation.setQuantity(quantity);
+		donation.setPickupAddress(pickupAddress);
+		donation.setContactPerson(contactPerson);
+		donation.setContactNumber(contactNumber);
+
+		// Combine date and time
+		LocalDateTime preparedDateTime = LocalDateTime.parse(preparedDate + "T" + preparedTime);
+
+		LocalDateTime expiryDateTime = LocalDateTime.parse(preparedDate + "T" + expiryTime);
+
+		donation.setPreparedTime(preparedDateTime);
+		donation.setExpiryTime(expiryDateTime);
+
+		donation.setStatus("Available");
+
+		// Temporary donor-id (replace with session later)
+		donation.setDonorId(1);
+
+		donationRepo.save(donation);
+
+		return "redirect:/donor-dashboard";
 	}
 
 	// Show manage-donation Page

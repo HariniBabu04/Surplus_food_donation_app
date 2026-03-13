@@ -1,5 +1,6 @@
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/navbar.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h1>Surplus Food Donation</h1>
 
@@ -12,6 +13,17 @@
 					<div class="mb-4 text-center">
 						<h3>User Registration</h3>
 					</div>
+					<c:if test="${not empty errorMessage}">
+					    <div class="alert alert-danger text-center">
+					        ${errorMessage}
+					    </div>
+					</c:if>
+
+					<c:if test="${not empty successMessage}">
+					    <div class="alert alert-success text-center">
+					        ${successMessage}
+					    </div>
+					</c:if>
 
 					<form action="/register" method="post">
 
@@ -80,12 +92,7 @@
 								</div>
 							</div>
 
-							<div class="row mb-3 align-items-center justify-content-center">
-								<label class="col-sm-2 col-form-label">Contact Person:</label>
-								<div class="col-sm-6">
-									<input type="text" class="form-control" id="contactPerson" name="contactPerson" placeholder="Contact Person Name">
-								</div>
-							</div>
+							
 
 						</div>
 

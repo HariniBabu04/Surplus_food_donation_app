@@ -25,19 +25,23 @@ public class User {
 
     private Integer role;
 
-    @Column(name = "organization_name", nullable = false)
+    @Column(name = "organization_name", nullable = true)
     private String organizationName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String address;
 
-    private Integer status;
+    
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Column(name = "contact_person")
-    private String contactPerson;
+    private String status;
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.status = "Active";
+    }
+  
 
     private String otp;
 
@@ -113,7 +117,7 @@ public class User {
         this.address = address;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -129,13 +133,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public String getContactPerson() {
-        return contactPerson;
-    }
-
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
-    }
+    
 
     public String getOtp() {
         return otp;

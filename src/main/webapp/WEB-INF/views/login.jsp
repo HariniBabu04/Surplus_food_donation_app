@@ -28,9 +28,9 @@
 							<label class="form-label">Login As</label>
 							<select name="role" class="form-select" required>
 								<option value="">Select Role</option>
-								<option value="1">Donor</option>
-								<option value="2">NGO / Volunteer</option>
-								<option value="3">Admin</option>
+								<option value="donor">Donor</option>
+								<option value="ngo">NGO / Volunteer</option>
+								<option value="admin">Admin</option>
 							</select>
 						</div>
 
