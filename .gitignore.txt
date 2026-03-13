@@ -1,0 +1,17 @@
+# Maven build output
+/target/
+
+# IDE files
+.vscode/
+.classpath
+.project
+.settings/
+
+# Mac/Linux
+.DS_Store
+
+# Optional extra safety
+*.class
+*.war
+*.jar
+*.log

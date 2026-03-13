@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View User</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Surplus Food Donation</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="manageUsers  ">Back to Manage Users</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h3 class="mb-4">View User</h3>
+  <div id="userDetails" class="border p-4 rounded bg-light"></div>
+</div>
+
+<script>
+  const users = {
+    "U001": {
+      id: "U001",
+      name: "John Doe",
+      role: "Donor",
+      email: "john@example.com",
+      phone: "9876543210",
+      organization: "-",
+      registeredOn: "2024-01-10",
+      status: "Active"
+    },
+    "U002": {
+      id: "U002",
+      name: "Lucas",
+      role: "NGO",
+      email: "lucas@example.com",
+      phone: "6754396754",
+      organization: "Helping Hands",
+      registeredOn: "2023-08-12",
+      status: "Active"
+    }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get('id');
+  const user = users[userId];
+
+  const container = document.getElementById("userDetails");
+
+  if(user){
+    container.innerHTML = `
+      <p><strong>User ID:</strong> ${user.id}</p>
+      <p><strong>Name:</strong> ${user.name}</p>
+      <p><strong>Role:</strong> ${user.role}</p>
+      <p><strong>Email:</strong> ${user.email}</p>
+      <p><strong>Phone:</strong> ${user.phone}</p>
+      <p><strong>Organization:</strong> ${user.organization}</p>
+      <p><strong>Registered On:</strong> ${user.registeredOn}</p>
+      <p><strong>Status:</strong> ${user.status}</p>
+    `;
+  } else {
+    container.innerHTML = "<p class='text-danger'>User not found.</p>";
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+com\example\foodapp\service\UserService.class
+com\example\foodapp\controller\HomeController.class
+com\example\foodapp\model\Role.class
+com\example\foodapp\FoodappApplication.class
+com\example\foodapp\repository\UserRepo.class
+com\example\foodapp\ServletInitializer.class
+com\example\foodapp\model\User.class
