@@ -1,56 +1,68 @@
 <%@ include file="/WEB-INF/common/header.jsp" %>
-	
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 
 		<div class="container-fluid">
 			<div class="row">
-
-				<%@ include file="/WEB-INF/common/sidebar-donor.jsp" %>
+				<!-- SIDEBAR -->
+				        <div class="col-md-3 col-lg-2 p-0 d-flex">
+				            <%@ include file="/WEB-INF/common/sidebar-donor.jsp" %>
+				        </div>
 
 					<!-- Main Content -->
 					<div class="col-md-10 p-4">
 
 						<!-- Header -->
 						<div class="d-flex justify-content-between align-items-center mb-4">
-							<h3>Welcome, Donor </h3>
-							<button class="btn btn-primary">+ Add New Donation</button>
+							<h3>Welcome, Donor ${name} </h3>
+							<button type="submit" class="btn btn-primary"
+								onclick="window.location.href='addSurplusfood'">+ Add New Donation</button>
 						</div>
 
 						<!-- Summary Cards -->
 						<div class="row mb-4">
-							<div class="col-md-3">
-								<div class="card text-center shadow-sm">
-									<div class="card-body">
-										<h5 class="card-title">Total Donations</h5>
-										<p class="fs-4">12</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card text-center shadow-sm">
-									<div class="card-body">
-										<h5 class="card-title">Pending</h5>
-										<p class="fs-4">5</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card text-center shadow-sm">
-									<div class="card-body">
-										<h5 class="card-title">Accepted</h5>
-										<p class="fs-4">6</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="card text-center shadow-sm">
-									<div class="card-body">
-										<h5 class="card-title">Expired</h5>
-										<p class="fs-4">1</p>
-									</div>
-								</div>
-							</div>
-						</div>
 
+							<div class="col-md-3">
+								<div class="card dashboard-card total-card text-center shadow-sm">
+									<div class="card-body">
+										<i class="bi bi-box-seam card-icon text-success"></i>
+										<h6 class="card-title">Total Donations</h6>
+										<p class="card-number">${totalDonations}</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="card dashboard-card pending-card text-center shadow-sm">
+									<div class="card-body">
+										<i class="bi bi-hourglass-split card-icon text-warning"></i>
+										<h6 class="card-title">Pending</h6>
+										<p class="card-number">${pendingDonations}</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="card dashboard-card accepted-card text-center shadow-sm">
+									<div class="card-body">
+										<i class="bi bi-check-circle card-icon text-primary"></i>
+										<h6 class="card-title">Accepted</h6>
+										<p class="card-number">${acceptedDonations}</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="card dashboard-card expired-card text-center shadow-sm">
+									<div class="card-body">
+										<i class="bi bi-x-circle card-icon text-danger"></i>
+										<h6 class="card-title">Expired</h6>
+										<p class="card-number">${expiredDonations}</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
 						<!-- Donation Table -->
 						<div class="card shadow-sm">
 							<div class="card-header bg-white">
@@ -61,55 +73,62 @@
 									<thead class="table-light">
 										<tr>
 											<th>S.No</th>
+											<th>Food Name</th>
 											<th>Food Type</th>
 											<th>Quantity</th>
 											<th>Expiry Time</th>
 											<th>Location</th>
 											<th>Status</th>
-											<th>Action</th>
+
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Cooked Rice</td>
-											<td>20 Kg</td>
-											<td>04 Feb 2026, 08:00 PM</td>
-											<td>Chennai</td>
-											<td>
-												<span class="status-badge status-pending">Pending</span>
-											</td>
-											<td>
-												<button class="btn btn-sm btn-warning">Edit</button>
-												<button class="btn btn-sm btn-danger">Cancel</button>
-											</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>Bread</td>
-											<td>50 Packs</td>
-											<td>04 Feb 2026, 06:00 PM</td>
-											<td>Tambaram</td>
-											<td>
-												<span class="status-badge status-accepted">Accepted</span>
-											</td>
-											<td>
-												<button class="btn btn-sm btn-secondary" disabled>Locked</button>
-											</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Vegetable Curry</td>
-											<td>15 Kg</td>
-											<td>03 Feb 2026, 02:00 PM</td>
-											<td>Velachery</td>
-											<td>
-												<span class="status-badge status-expired">Expired</span>
-											</td>
-											<td>
-												<button class="btn btn-sm btn-secondary" disabled>Expired</button>
-											</td>
-										</tr>
+
+										<c:forEach var="donation" items="${donations}" varStatus="count">
+
+											<tr>
+												<td>${count.index + 1}</td>
+												<td>${donation.foodName}</td>
+												<td>${donation.foodType}</td>
+												<td>${donation.quantity}</td>
+												<td>${donation.expiryTime}</td>
+												<td>${donation.pickupAddress}</td>
+
+												<td>
+
+													<c:choose>
+
+														<c:when test="${donation.status == 'CREATED'}">
+															<span
+																style="color:#ffc107; font-weight:bold;">Pending</span>
+														</c:when>
+
+														<c:when test="${donation.status == 'ACCEPTED'}">
+															<span style="color:green; font-weight:bold;">Accepted</span>
+														</c:when>
+
+														<c:when test="${donation.status == 'CANCELLED'}">
+															<span
+																style="color:orange; font-weight:bold;">Cancelled</span>
+														</c:when>
+
+														<c:when test="${donation.status == 'EXPIRED'}">
+															<span style="color:red; font-weight:bold;">Expired</span>
+														</c:when>
+
+														<c:otherwise>
+															<span style="color:black;">${donation.status}</span>
+														</c:otherwise>
+
+													</c:choose>
+
+												</td>
+
+
+											</tr>
+
+										</c:forEach>
+
 									</tbody>
 								</table>
 							</div>

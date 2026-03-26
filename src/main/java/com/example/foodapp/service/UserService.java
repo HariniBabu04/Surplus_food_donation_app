@@ -9,35 +9,52 @@ import com.example.foodapp.repository.UserRepository;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository repo;
+	@Autowired
+	private UserRepository repo;
 
-    // LOGIN
-    public User authenticateUser(String email, String password) {
+	private final org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder passwordEncoder = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
 
-        User existingUser = repo.findByEmail(email);
+	// LOGIN
+	public User authenticateUser(String email, String password) {
+		User existingUser = repo.findByEmail(email);
+		if (existingUser != null && passwordEncoder.matches(password, existingUser.getPassword())) {
+			return existingUser;
+		}
+		return null;
+	}
 
-        if (existingUser != null && existingUser.getPassword().equals(password)) {
-            return existingUser;
-        }
+	// REGISTER
+	public boolean registerUser(User user) {
+		User existingUser = repo.findByEmail(user.getEmail());
+		if (existingUser != null) {
+			return false;
+		}
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		repo.save(user);
+		return true;
+	}
 
-        return null;
-    }
+	// NEW: fetch user by email
+	public User findByEmail(String email) {
+		return repo.findByEmail(email);
+	}
 
-    // REGISTER
+	// OPTIONAL: update user
+	public void updateUser(User user) {
+		repo.save(user); // persist changes
+	}
 
-    public boolean registerUser(User user) {
+	public long getTotalUsers() {
+		return repo.count();
+	}
 
-        // check email first
-        User existingUser = repo.findByEmail(user.getEmail());
+	public long countByRole(String role) {
+		return repo.countByRoleIgnoreCase(role);
+	}
 
-        if (existingUser != null) {
-            return false;   // duplicate email
-        }
+	public long getActiveNGOsCount() {
+		return repo.countByRoleIgnoreCase("NGO");
+	}
+	
 
-        repo.save(user);
-        return true;
-    }
 }
-
-

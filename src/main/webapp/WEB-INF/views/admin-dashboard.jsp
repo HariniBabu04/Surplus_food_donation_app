@@ -1,6 +1,6 @@
-<%@ include file="/WEB-INF/common/header.jsp" %>
-
-<%@ include file="/WEB-INF/common/sidebar-admin.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ include file="/WEB-INF/common/header.jsp" %>
+		<%@ include file="/WEB-INF/common/sidebar-admin.jsp" %>
 
 			<!-- MAIN CONTENT -->
 			<div class="col-md-10 p-4 bg-light">
@@ -10,38 +10,42 @@
 				<!-- SUMMARY CARDS -->
 				<div class="row g-4">
 
+					<!-- Total Users -->
 					<div class="col-md-3">
 						<div class="card shadow-sm">
 							<div class="card-body text-center">
 								<h5>Total Users</h5>
-								<h2 class="text-primary">50</h2>
+								<h2 class="text-primary">${totalUsers}</h2>
 							</div>
 						</div>
 					</div>
 
+					<!-- Total Donations -->
 					<div class="col-md-3">
 						<div class="card shadow-sm">
 							<div class="card-body text-center">
 								<h5>Total Donations</h5>
-								<h2 class="text-success">120</h2>
+								<h2 class="text-success">${totalDonations}</h2>
 							</div>
 						</div>
 					</div>
 
+					<!-- Active NGOs -->
 					<div class="col-md-3">
 						<div class="card shadow-sm">
 							<div class="card-body text-center">
 								<h5>Active NGOs</h5>
-								<h2 class="text-warning">18</h2>
+								<h2 class="text-warning">${activeNGOs}</h2>
 							</div>
 						</div>
 					</div>
 
+					<!-- Pending Requests -->
 					<div class="col-md-3">
 						<div class="card shadow-sm">
 							<div class="card-body text-center">
 								<h5>Pending Requests</h5>
-								<h2 class="text-danger">9</h2>
+								<h2 class="text-danger">${pendingRequests}</h2>
 							</div>
 						</div>
 					</div>
@@ -63,43 +67,46 @@
 									<th>Food</th>
 									<th>Quantity</th>
 									<th>Status</th>
-									<th>Date</th>
+									<th>Expiry Time</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>ABC Hotel</td>
-									<td>Rice</td>
-									<td>50 kg</td>
-									<td><span class="badge bg-warning">Pending</span></td>
-									<td>10 Feb 2026</td>
-								</tr>
+								<c:forEach items="${recentDonations}" var="donation">
+									<tr>
+										<td>${donation.donationId}</td>
+										<td>${donation.donor.name}</td>
+										<td>${donation.foodName}</td>
+										<td>${donation.quantity}</td>
 
-								<tr>
-									<td>2</td>
-									<td>XYZ Company</td>
-									<td>Biryani</td>
-									<td>30 kg</td>
-									<td><span class="badge bg-success">Accepted</span></td>
-									<td>9 Feb 2026</td>
-								</tr>
+										<!-- Status Badge -->
+										<td>
+											<span class="badge 
+                                    ${donation.status == 'CREATED' ? 'bg-warning' : 
+                                      donation.status == 'COMPLETED' ? 'bg-success' : 
+                                      donation.status == 'EXPIRED' ? 'bg-danger' : 'bg-secondary'}">
+												${donation.status}
+											</span>
+										</td>
 
-								<tr>
-									<td>3</td>
-									<td>College Hostel</td>
-									<td>Chapati</td>
-									<td>20 kg</td>
-									<td><span class="badge bg-primary">Picked</span></td>
-									<td>8 Feb 2026</td>
-								</tr>
+										<td>${donation.expiryTime}</td>
+									</tr>
+								</c:forEach>
+
+								<!-- Empty Case -->
+								<c:if test="${empty recentDonations}">
+									<tr>
+										<td colspan="6" class="text-center text-muted">
+											No donations found.
+										</td>
+									</tr>
+								</c:if>
 							</tbody>
 						</table>
 					</div>
 				</div>
 
-				<!-- RECENT ACTIVITY -->
+				<!-- RECENT ACTIVITY (DYNAMIC) -->
 				<div class="card mt-4 shadow-sm">
 					<div class="card-header bg-dark text-white">
 						Recent Activity
@@ -107,16 +114,19 @@
 
 					<div class="card-body">
 						<ul>
-							<li>New donor registered</li>
-							<li>Donation accepted by NGO</li>
-							<li>Food expired automatically</li>
-							<li>Pickup completed successfully</li>
+							<c:forEach items="${activities}" var="act">
+								<li>${act.description}</li>
+							</c:forEach>
+
+							<c:if test="${empty activities}">
+								<li class="text-muted">No recent activity.</li>
+							</c:if>
 						</ul>
 					</div>
 				</div>
 
 			</div>
-		</div>
-	</div>
+			</div>
+			</div>
 
-	<%@ include file="/WEB-INF/common/footer.jsp" %>
+			<%@ include file="/WEB-INF/common/footer.jsp" %>

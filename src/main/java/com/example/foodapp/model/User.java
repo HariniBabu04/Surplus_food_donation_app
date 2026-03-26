@@ -23,7 +23,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private Integer role;
+    private String role;
 
     @Column(name = "organization_name", nullable = true)
     private String organizationName;
@@ -93,11 +93,11 @@ public class User {
         this.password = password;
     }
 
-    public Integer getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -118,10 +118,10 @@ public class User {
     }
 
     public String getStatus() {
-        return status;
+        return (String) status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

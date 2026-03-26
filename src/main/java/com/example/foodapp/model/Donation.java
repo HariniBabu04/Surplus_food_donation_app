@@ -9,168 +9,193 @@ public class Donation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "donation_id")
     private Integer donationId;
 
-    public Integer getDonationId() {
-		return donationId;
-	}
-
-	public void setDonationId(Integer donationId) {
-		this.donationId = donationId;
-	}
-
-	public Integer getDonorId() {
-		return donorId;
-	}
-
-	public void setDonorId(Integer donorId) {
-		this.donorId = donorId;
-	}
-
-	public String getFoodName() {
-		return foodName;
-	}
-
-	public void setFoodName(String foodName) {
-		this.foodName = foodName;
-	}
-
-	public String getFoodType() {
-		return foodType;
-	}
-
-	public void setFoodType(String foodType) {
-		this.foodType = foodType;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
-	}
-
-	public LocalDateTime getPreparedTime() {
-		return preparedTime;
-	}
-
-	public void setPreparedTime(LocalDateTime preparedTime) {
-		this.preparedTime = preparedTime;
-	}
-
-	public LocalDateTime getExpiryTime() {
-		return expiryTime;
-	}
-
-	public void setExpiryTime(LocalDateTime expiryTime) {
-		this.expiryTime = expiryTime;
-	}
-
-	public String getPickupAddress() {
-		return pickupAddress;
-	}
-
-	public void setPickupAddress(String pickupAddress) {
-		this.pickupAddress = pickupAddress;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getSpecialInstructions() {
-		return specialInstructions;
-	}
-
-	public void setSpecialInstructions(String specialInstructions) {
-		this.specialInstructions = specialInstructions;
-	}
-
-	public String getContactPerson() {
-		return contactPerson;
-	}
-
-	public void setContactPerson(String contactPerson) {
-		this.contactPerson = contactPerson;
-	}
-
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	@Column(name = "donor_id")
-    private Integer donorId;
-
-    @Column(name = "food_name")
+    @Column(nullable = false)
     private String foodName;
 
-    @Column(name = "food_type")
+    @Column(nullable = false)
     private String foodType;
 
-    private String category;
+    @Column(nullable = false)
+    private Integer quantity;
 
-    private String quantity;
-
-    @Column(name = "prepared_time")
+    @Column(name = "prepared_time", nullable = false)
     private LocalDateTime preparedTime;
 
-    @Column(name = "expiry_time")
+    @Column(name = "expiry_time", nullable = false)
     private LocalDateTime expiryTime;
 
-    @Column(name = "pickup_address")
+    @Column(nullable = false)
     private String pickupAddress;
 
-    private String city;
-
-    @Column(name = "special_instructions")
-    private String specialInstructions;
-
-    @Column(name = "contact_person")
     private String contactPerson;
 
-    @Column(name = "contact_number")
     private String contactNumber;
 
-    private String status;
+    @Column(nullable = false)
+    private String status = "CREATED"; 
+    // CREATED, ACCEPTED, PICKED_UP, COMPLETED, EXPIRED
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "ngo_id")
+    private User ngo;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User donor;
 
     public Donation() {}
 
-    // getters and setters
+    public Integer getDonationId() {
+        return donationId;
+    }
+
+    public void setDonationId(Integer donationId) {
+        this.donationId = donationId;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDateTime getPreparedTime() {
+        return preparedTime;
+    }
+
+    public void setPreparedTime(LocalDateTime preparedTime) {
+        this.preparedTime = preparedTime;
+    }
+
+    public LocalDateTime getExpiryTime() {
+        return expiryTime;
+    }
+
+    public void setExpiryTime(LocalDateTime expiryTime) {
+        this.expiryTime = expiryTime;
+    }
+
+    public String getPickupAddress() {
+        return pickupAddress;
+    }
+
+    public void setPickupAddress(String pickupAddress) {
+        this.pickupAddress = pickupAddress;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getNgo() {
+        return ngo;
+    }
+
+    public void setNgo(User ngo) {
+        this.ngo = ngo;
+    }
+
+    public User getDonor() {
+        return donor;
+    }
+
+    public void setDonor(User donor) {
+        this.donor = donor;
+    }
+ // ================= PICKUP DETAILS =================
+
+    @Column(name = "volunteer_name")
+    private String volunteerName;
+
+    @Column(name = "vehicle_number")
+    private String vehicleNumber;
+
+    @Column(name = "food_condition")
+    private String foodCondition;
+
+    @Column(name = "pickup_remarks")
+    private String pickupRemarks;
+
+    @Column(name = "actual_pickup_time")
+    private LocalDateTime actualPickupTime;
+    
+    public String getVolunteerName() {
+        return volunteerName;
+    }
+
+    public void setVolunteerName(String volunteerName) {
+        this.volunteerName = volunteerName;
+    }
+
+    public String getVehicleNumber() {
+        return vehicleNumber;
+    }
+
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public String getFoodCondition() {
+        return foodCondition;
+    }
+
+    public void setFoodCondition(String foodCondition) {
+        this.foodCondition = foodCondition;
+    }
+
+    public String getPickupRemarks() {
+        return pickupRemarks;
+    }
+
+    public void setPickupRemarks(String pickupRemarks) {
+        this.pickupRemarks = pickupRemarks;
+    }
+
+    public LocalDateTime getActualPickupTime() {
+        return actualPickupTime;
+    }
+
+    public void setActualPickupTime(LocalDateTime actualPickupTime) {
+        this.actualPickupTime = actualPickupTime;
+    }
 }

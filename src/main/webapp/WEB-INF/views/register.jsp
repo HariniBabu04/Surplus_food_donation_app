@@ -66,9 +66,10 @@
 							<label class="col-sm-2 col-form-label">Select Role:</label>
 							<div class="col-sm-6">
 								<select class="form-select" id="role" name="role" onchange="selectRole()">
-									<option value="">Select role...</option>
-									<option value="1">Donor (Organization / Industry / Hotel)</option>
-									<option value="2">NGO</option>
+								    <option value="">Select role...</option>
+								    <option value="donor">Donor (Organization / Industry / Hotel)</option>
+								    <option value="ngo">NGO</option>
+								    <option value="admin">Admin</option>
 								</select>
 							</div>
 						</div>

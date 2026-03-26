@@ -8,6 +8,11 @@
 		<h5 class="text-center mb-4">NGO Panel</h5>
 
 		<ul class="nav flex-column">
+			<li class="nav-item">
+				<a class="nav-link text-white" href="/">
+					<i class="bi bi-house"></i>Home
+				</a>
+			</li>
 
 			<li class="nav-item">
 				<a class="nav-link text-white" href="/ngo-dashboard">
@@ -24,24 +29,6 @@
 			<li class="nav-item">
 				<a class="nav-link text-white" href="/search-food">
 					<i class="bi bi-search"></i> Search Food
-				</a>
-			</li>
-
-			<li class="nav-item">
-				<a class="nav-link text-white" href="/view-map">
-					<i class="bi bi-geo-alt"></i> View Map
-				</a>
-			</li>
-
-			<li class="nav-item">
-				<a class="nav-link text-white" href="/acceptDonation">
-					<i class="bi bi-check-circle"></i> Accept Donation
-				</a>
-			</li>
-
-			<li class="nav-item">
-				<a class="nav-link text-white" href="/pickup">
-					<i class="bi bi-truck"></i> Pickup Confirmation
 				</a>
 			</li>
 

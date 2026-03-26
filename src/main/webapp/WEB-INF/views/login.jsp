@@ -26,11 +26,11 @@
 						<!-- Role Selection -->
 						<div class="mb-3">
 							<label class="form-label">Login As</label>
-							<select name="role" class="form-select" required>
-								<option value="">Select Role</option>
-								<option value="donor">Donor</option>
-								<option value="ngo">NGO / Volunteer</option>
-								<option value="admin">Admin</option>
+							<select class="form-select" id="role" name="role" onchange="selectRole()">
+							    <option value="">Select role...</option>
+							    <option value="donor">Donor (Organization / Industry / Hotel)</option>
+							    <option value="ngo">NGO</option>
+							    <option value="admin">Admin</option>
 							</select>
 						</div>
 

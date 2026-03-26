@@ -1,7 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/common/header.jsp" %>
 
 	<%@ include file="/WEB-INF/common/sidebar-admin.jsp" %>
-
 
 		<div class="container mt-4">
 			<h3 class="mb-4">Manage Donations</h3>
@@ -19,12 +19,11 @@
 				<div class="col-md-3">
 					<select class="form-select" id="statusFilter">
 						<option value="">Filter by Status</option>
-						<option>Available</option>
-						<option>Accepted</option>
-						<option>Picked Up</option>
-						<option>Completed</option>
-						<option>Expired</option>
-						<option>Cancelled</option>
+						<option value="CREATED">Available</option>
+						<option value="ACCEPTED">Accepted</option>
+						<option value="PICKED">Picked Up</option>
+						<option value="COMPLETED">Completed</option>
+						<option value="EXPIRED">Expired</option>
 					</select>
 				</div>
 			</div>
@@ -33,59 +32,46 @@
 				<table class="table table-hover table-bordered">
 					<thead class="table-light">
 						<tr>
-							<th>Donation ID</th>
+							<th>ID</th>
 							<th>Food Name</th>
-							<th>Donor Name</th>
-							<th>NGO Name</th>
+							<th>Donor</th>
+							<th>NGO</th>
 							<th>Quantity</th>
-							<th>Location</th>
-							<th>Posted Date</th>
 							<th>Expiry Time</th>
 							<th>Status</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="text-nowrap">
-							<td>D001</td>
-							<td>Chicken Biriyani</td>
-							<td>John Doe</td>
-							<td>-</td>
-							<td>10 kg</td>
-							<td>Taramani, Chennai</td>
-							<td>2024-02-01</td>
-							<td>2024-02-05</td>
-							<td class="status-cell"><span>Available</span></td>
-							<td>
-								<button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-									data-bs-target="#viewModal">View</button>
-								<button class="btn btn-sm btn-outline-warning"
-									onclick="window.location.href='editDonation'">Edit</button>
-								<button class="btn btn-sm btn-outline-danger cancel-btn" data-bs-toggle="modal"
-									data-bs-target="#cancelModal">Cancel</button>
-							</td>
-						</tr>
-						<tr class="text-nowrap">
-							<td>D002</td>
-							<td>Vegetable Curry</td>
-							<td>Lucas</td>
-							<td>Helping Hands</td>
-							<td>20 kg</td>
-							<td>North Zone</td>
-							<td>2024-01-28</td>
-							<td>2024-02-03</td>
-							<td class="status-cell"><span>Accepted</span></td>
-							<td>
-								<button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-									data-bs-target="#viewModal">View</button>
-								<button class="btn btn-sm btn-outline-warning"
-									onclick="window.location.href='editDonation'">Edit</button>
-								<button class="btn btn-sm btn-outline-danger cancel-btn" data-bs-toggle="modal"
-									data-bs-target="#cancelModal">Cancel</button>
-							</td>
-						</tr>
+						<c:forEach items="${donations}" var="d">
+							<tr class="text-nowrap">
+								<td>${d.donationId}</td>
+								<td>${d.foodName}</td>
+								<td>${d.donor.name}</td>
+								<td>${d.ngo != null ? d.ngo.organizationName : '-'}</td>
+								<td>${d.quantity}</td>
+								<td>${d.expiryTime}</td>
+								<td class="status-cell">
+									<span class="badge ${d.status == 'CREATED' ? 'bg-primary' : (d.status == 'ACCEPTED' ? 'bg-success' : 'bg-danger')}">
+										${d.status}
+									</span>
+								</td>
+								<td>
+									<button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+										data-bs-target="#viewModal${d.donationId}">View</button>
+									<a href="editDonation?id=${d.donationId}" class="btn btn-sm btn-outline-warning">Edit</a>
+								</td>
+							</tr>
+						</c:forEach>
+						<c:if test="${empty donations}">
+							<tr>
+								<td colspan="8" class="text-center text-muted">No donations found.</td>
+							</tr>
+						</c:if>
 					</tbody>
 				</table>
+			</div>
+		</div>
 			</div>
 		</div>
 
